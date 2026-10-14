@@ -6,7 +6,7 @@ common model that I call the canonical model. Each value keeps the raw value fro
 the provider next to it. If something is unknown, derived, converted or looks
 odd, it is added to the record as an issue instead of being guessed.
 
-Other docs, in the order I'd read them:
+Other docs:
 
 - [docs/ASSIGNMENT.md](docs/ASSIGNMENT.md): the original assignment brief
 - [docs/SOURCE_MAPPING.md](docs/SOURCE_MAPPING.md): provider field to canonical field
