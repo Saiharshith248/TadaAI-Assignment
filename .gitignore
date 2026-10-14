@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.DS_Store
+.env
+.env.*
+*.pem
+*.key
+node_modules/
+dist/
+build/
+
+# live pulls and generated outputs (may contain demo PII; never commit)
+live_snapshots/
+output/
+*.egg-info/

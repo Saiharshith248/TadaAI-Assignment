@@ -1,0 +1,3740 @@
+{
+  "$defs": {
+    "Address": {
+      "additionalProperties": false,
+      "properties": {
+        "line1": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line1"
+        },
+        "line2": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line2"
+        },
+        "line3": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line3"
+        },
+        "city": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "City"
+        },
+        "state": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "State/province code as supplied (US: 2-letter)",
+          "title": "State"
+        },
+        "postal_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Postal Code"
+        },
+        "county": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "County"
+        },
+        "country": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "ISO 3166-1 alpha-3 when known, else as supplied",
+          "title": "Country"
+        }
+      },
+      "title": "Address",
+      "type": "object"
+    },
+    "AllocationMethod": {
+      "enum": [
+        "FIXED_AMOUNT",
+        "PERCENT",
+        "REMAINDER",
+        "UNKNOWN"
+      ],
+      "title": "AllocationMethod",
+      "type": "string"
+    },
+    "BankAccountType": {
+      "enum": [
+        "CHECKING",
+        "SAVINGS",
+        "PAY_CARD",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "BankAccountType",
+      "type": "string"
+    },
+    "ClassificationBasis": {
+      "description": "How a category was assigned \u2014 lets consumers judge confidence.",
+      "enum": [
+        "PROVIDER_TYPE",
+        "PROVIDER_FLAG",
+        "CODE_HEURISTIC",
+        "UNCLASSIFIED"
+      ],
+      "title": "ClassificationBasis",
+      "type": "string"
+    },
+    "Coded_AllocationMethod_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/AllocationMethod"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[AllocationMethod]",
+      "type": "object"
+    },
+    "Coded_BankAccountType_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/BankAccountType"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[BankAccountType]",
+      "type": "object"
+    },
+    "Coded_CompanyStatus_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/CompanyStatus"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[CompanyStatus]",
+      "type": "object"
+    },
+    "Coded_DeductionCalcMethod_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/DeductionCalcMethod"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[DeductionCalcMethod]",
+      "type": "object"
+    },
+    "Coded_DeductionCategory_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/DeductionCategory"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[DeductionCategory]",
+      "type": "object"
+    },
+    "Coded_DirectDepositStatus_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/DirectDepositStatus"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[DirectDepositStatus]",
+      "type": "object"
+    },
+    "Coded_EarningCategory_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/EarningCategory"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[EarningCategory]",
+      "type": "object"
+    },
+    "Coded_EmploymentStatus_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/EmploymentStatus"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[EmploymentStatus]",
+      "type": "object"
+    },
+    "Coded_EmploymentType_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/EmploymentType"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[EmploymentType]",
+      "type": "object"
+    },
+    "Coded_FlsaStatus_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/FlsaStatus"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[FlsaStatus]",
+      "type": "object"
+    },
+    "Coded_Gender_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/Gender"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[Gender]",
+      "type": "object"
+    },
+    "Coded_MaritalStatus_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/MaritalStatus"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[MaritalStatus]",
+      "type": "object"
+    },
+    "Coded_NationalIdType_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/NationalIdType"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[NationalIdType]",
+      "type": "object"
+    },
+    "Coded_PayFrequency_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/PayFrequency"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[PayFrequency]",
+      "type": "object"
+    },
+    "Coded_PayType_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/PayType"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[PayType]",
+      "type": "object"
+    },
+    "Coded_PaycheckStatus_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/PaycheckStatus"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[PaycheckStatus]",
+      "type": "object"
+    },
+    "Coded_PayrollRunStatus_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/PayrollRunStatus"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[PayrollRunStatus]",
+      "type": "object"
+    },
+    "Coded_PayrollType_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/PayrollType"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[PayrollType]",
+      "type": "object"
+    },
+    "Coded_TaxType_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/TaxType"
+        },
+        "raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider's label for the raw value, if any",
+          "title": "Description"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Coded[TaxType]",
+      "type": "object"
+    },
+    "Company": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "provider_fields": {
+          "additionalProperties": true,
+          "description": "Provider fields with no canonical home, preserved verbatim (masked if sensitive)",
+          "title": "Provider Fields",
+          "type": "object"
+        },
+        "parent_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider account above the legal employer (isolved client, UKG company)",
+          "title": "Parent Id"
+        },
+        "parent_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Name"
+        },
+        "code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code"
+        },
+        "legal_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Legal Name"
+        },
+        "dba_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dba Name"
+        },
+        "federal_ein": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "As supplied; may be provider-masked",
+          "title": "Federal Ein"
+        },
+        "status": {
+          "$ref": "#/$defs/Coded_CompanyStatus_"
+        },
+        "status_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status Date"
+        },
+        "service_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Service Type"
+        },
+        "industry_naics": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Industry Naics"
+        },
+        "industry_sic": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Industry Sic"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Address"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "phone": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Phone"
+        },
+        "email": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Email"
+        },
+        "pay_groups": {
+          "items": {
+            "$ref": "#/$defs/PayGroup"
+          },
+          "title": "Pay Groups",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "status"
+      ],
+      "title": "Company",
+      "type": "object"
+    },
+    "CompanyStatus": {
+      "enum": [
+        "ACTIVE",
+        "PENDING",
+        "INACTIVE",
+        "TERMINATING",
+        "TERMINATED",
+        "UNKNOWN"
+      ],
+      "title": "CompanyStatus",
+      "type": "string"
+    },
+    "Compensation": {
+      "additionalProperties": false,
+      "description": "Current pay. ``rate`` + ``rate_period`` are the provider's own figure;\n``annual_amount``/``hourly_rate`` are provider-supplied or derived (see issues).",
+      "properties": {
+        "pay_type": {
+          "$ref": "#/$defs/Coded_PayType_"
+        },
+        "pay_frequency": {
+          "$ref": "#/$defs/Coded_PayFrequency_"
+        },
+        "periods_per_year": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Periods Per Year"
+        },
+        "rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate"
+        },
+        "rate_period": {
+          "$ref": "#/$defs/RatePeriod",
+          "default": "UNKNOWN"
+        },
+        "annual_amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Annual Amount"
+        },
+        "hourly_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hourly Rate"
+        },
+        "standard_hours_per_period": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Hours Per Period"
+        },
+        "currency": {
+          "default": "USD",
+          "title": "Currency",
+          "type": "string"
+        },
+        "effective_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective Date"
+        },
+        "pay_group": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pay Group"
+        }
+      },
+      "required": [
+        "pay_type",
+        "pay_frequency"
+      ],
+      "title": "Compensation",
+      "type": "object"
+    },
+    "CompensationChange": {
+      "additionalProperties": false,
+      "properties": {
+        "effective_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective Date"
+        },
+        "rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate"
+        },
+        "rate_period": {
+          "$ref": "#/$defs/RatePeriod",
+          "default": "UNKNOWN"
+        },
+        "annual_amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Annual Amount"
+        },
+        "hourly_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hourly Rate"
+        },
+        "pay_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Coded_PayType_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "currency": {
+          "default": "USD",
+          "title": "Currency",
+          "type": "string"
+        }
+      },
+      "title": "CompensationChange",
+      "type": "object"
+    },
+    "DeductionCalcMethod": {
+      "enum": [
+        "FIXED_AMOUNT",
+        "PERCENT",
+        "RATE_PER_HOUR",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "DeductionCalcMethod",
+      "type": "string"
+    },
+    "DeductionCategory": {
+      "enum": [
+        "RETIREMENT",
+        "RETIREMENT_LOAN",
+        "MEDICAL",
+        "DENTAL",
+        "VISION",
+        "HEALTH_BENEFIT",
+        "LIFE_DISABILITY",
+        "FSA",
+        "DEPENDENT_CARE_FSA",
+        "HSA",
+        "COMMUTER",
+        "GARNISHMENT",
+        "LOAN",
+        "UNION_DUES",
+        "CHARITY",
+        "VOLUNTARY",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "DeductionCategory",
+      "type": "string"
+    },
+    "DeductionKind": {
+      "enum": [
+        "RECURRING",
+        "ONE_TIME",
+        "GARNISHMENT",
+        "UNKNOWN"
+      ],
+      "title": "DeductionKind",
+      "type": "string"
+    },
+    "DeductionLine": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "category": {
+          "$ref": "#/$defs/Coded_DeductionCategory_"
+        },
+        "category_basis": {
+          "$ref": "#/$defs/ClassificationBasis"
+        },
+        "tax_treatment": {
+          "$ref": "#/$defs/TaxTreatment",
+          "default": "UNKNOWN"
+        },
+        "employee_amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Employee Amount"
+        },
+        "employer_amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Employer Amount"
+        },
+        "benefit_plan_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Benefit Plan Id"
+        }
+      },
+      "required": [
+        "category",
+        "category_basis",
+        "employee_amount"
+      ],
+      "title": "DeductionLine",
+      "type": "object"
+    },
+    "DeductionSetup": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "provider_fields": {
+          "additionalProperties": true,
+          "description": "Provider fields with no canonical home, preserved verbatim (masked if sensitive)",
+          "title": "Provider Fields",
+          "type": "object"
+        },
+        "company_id": {
+          "title": "Company Id",
+          "type": "string"
+        },
+        "employee_id": {
+          "title": "Employee Id",
+          "type": "string"
+        },
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "kind": {
+          "$ref": "#/$defs/DeductionKind"
+        },
+        "category": {
+          "$ref": "#/$defs/Coded_DeductionCategory_"
+        },
+        "category_basis": {
+          "$ref": "#/$defs/ClassificationBasis"
+        },
+        "tax_treatment": {
+          "$ref": "#/$defs/TaxTreatment",
+          "default": "UNKNOWN"
+        },
+        "is_catch_up": {
+          "default": false,
+          "title": "Is Catch Up",
+          "type": "boolean"
+        },
+        "calc_method": {
+          "$ref": "#/$defs/Coded_DeductionCalcMethod_"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Amount"
+        },
+        "percent": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Percent"
+        },
+        "limits": {
+          "items": {
+            "$ref": "#/$defs/Limit"
+          },
+          "title": "Limits",
+          "type": "array"
+        },
+        "frequency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider schedule/periods, raw",
+          "title": "Frequency"
+        },
+        "status": {
+          "$ref": "#/$defs/DeductionStatus",
+          "default": "UNKNOWN"
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Date"
+        },
+        "stop_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stop Date"
+        },
+        "benefit_plan_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Benefit Plan Id"
+        },
+        "payee": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Payee"
+        },
+        "employer_match": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EmployerMatch"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "company_id",
+        "employee_id",
+        "code",
+        "kind",
+        "category",
+        "category_basis",
+        "calc_method"
+      ],
+      "title": "DeductionSetup",
+      "type": "object"
+    },
+    "DeductionStatus": {
+      "enum": [
+        "ACTIVE",
+        "INACTIVE",
+        "SCHEDULED",
+        "ENDED",
+        "UNKNOWN"
+      ],
+      "title": "DeductionStatus",
+      "type": "string"
+    },
+    "DepositLine": {
+      "additionalProperties": false,
+      "properties": {
+        "account_last4": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Account Last4"
+        },
+        "routing_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Routing Number"
+        },
+        "account_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Coded_BankAccountType_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Amount"
+        }
+      },
+      "required": [
+        "amount"
+      ],
+      "title": "DepositLine",
+      "type": "object"
+    },
+    "DirectDeposit": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "provider_fields": {
+          "additionalProperties": true,
+          "description": "Provider fields with no canonical home, preserved verbatim (masked if sensitive)",
+          "title": "Provider Fields",
+          "type": "object"
+        },
+        "company_id": {
+          "title": "Company Id",
+          "type": "string"
+        },
+        "employee_id": {
+          "title": "Employee Id",
+          "type": "string"
+        },
+        "priority": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Processing order; remainder accounts last",
+          "title": "Priority"
+        },
+        "account_type": {
+          "$ref": "#/$defs/Coded_BankAccountType_"
+        },
+        "routing_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Routing Number"
+        },
+        "account_last4": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Account Last4"
+        },
+        "bank_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bank Name"
+        },
+        "method": {
+          "$ref": "#/$defs/Coded_AllocationMethod_"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Amount"
+        },
+        "percent": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "0-100",
+          "title": "Percent"
+        },
+        "percent_basis": {
+          "$ref": "#/$defs/PercentBasis",
+          "default": "UNKNOWN"
+        },
+        "amount_limit": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Cap on a percentage allocation",
+          "title": "Amount Limit"
+        },
+        "status": {
+          "$ref": "#/$defs/Coded_DirectDepositStatus_"
+        },
+        "prenote_status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prenote Status"
+        },
+        "effective_start": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective Start"
+        },
+        "effective_end": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective End"
+        },
+        "applies_to": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Which pay/voucher types use this account, raw",
+          "title": "Applies To"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "company_id",
+        "employee_id",
+        "account_type",
+        "method",
+        "status"
+      ],
+      "title": "DirectDeposit",
+      "type": "object"
+    },
+    "DirectDepositStatus": {
+      "enum": [
+        "ACTIVE",
+        "PRENOTE",
+        "INACTIVE",
+        "UNKNOWN"
+      ],
+      "title": "DirectDepositStatus",
+      "type": "string"
+    },
+    "EarningCategory": {
+      "enum": [
+        "REGULAR",
+        "OVERTIME",
+        "DOUBLE_TIME",
+        "HOLIDAY",
+        "PTO",
+        "BONUS",
+        "COMMISSION",
+        "TIPS",
+        "REIMBURSEMENT",
+        "IMPUTED_INCOME",
+        "SEVERANCE",
+        "CONTRACTOR",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "EarningCategory",
+      "type": "string"
+    },
+    "EarningLine": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "category": {
+          "$ref": "#/$defs/Coded_EarningCategory_"
+        },
+        "category_basis": {
+          "$ref": "#/$defs/ClassificationBasis"
+        },
+        "hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hours"
+        },
+        "rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Amount"
+        },
+        "is_cash": {
+          "default": true,
+          "description": "False for imputed/memo amounts that are not paid out",
+          "title": "Is Cash",
+          "type": "boolean"
+        },
+        "work_date_start": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Work Date Start"
+        },
+        "work_date_end": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Work Date End"
+        },
+        "department": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Department"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "job_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Job Code"
+        }
+      },
+      "required": [
+        "category",
+        "category_basis",
+        "amount"
+      ],
+      "title": "EarningLine",
+      "type": "object"
+    },
+    "Email": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "description": "personal | work | other",
+          "title": "Type",
+          "type": "string"
+        },
+        "address": {
+          "title": "Address",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "address"
+      ],
+      "title": "Email",
+      "type": "object"
+    },
+    "Employee": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "provider_fields": {
+          "additionalProperties": true,
+          "description": "Provider fields with no canonical home, preserved verbatim (masked if sensitive)",
+          "title": "Provider Fields",
+          "type": "object"
+        },
+        "company_id": {
+          "title": "Company Id",
+          "type": "string"
+        },
+        "employee_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Employee Number"
+        },
+        "external_ids": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "External Ids",
+          "type": "object"
+        },
+        "name": {
+          "$ref": "#/$defs/PersonName"
+        },
+        "birth_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Birth Date"
+        },
+        "gender": {
+          "$ref": "#/$defs/Coded_Gender_"
+        },
+        "marital_status": {
+          "$ref": "#/$defs/Coded_MaritalStatus_"
+        },
+        "ethnicity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider label, not normalised (code sets differ)",
+          "title": "Ethnicity"
+        },
+        "national_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NationalId"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "home_address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Address"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "mailing_address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Address"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "emails": {
+          "items": {
+            "$ref": "#/$defs/Email"
+          },
+          "title": "Emails",
+          "type": "array"
+        },
+        "phones": {
+          "items": {
+            "$ref": "#/$defs/Phone"
+          },
+          "title": "Phones",
+          "type": "array"
+        },
+        "employment": {
+          "$ref": "#/$defs/Employment"
+        },
+        "job": {
+          "$ref": "#/$defs/Job"
+        },
+        "compensation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Compensation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "compensation_history": {
+          "items": {
+            "$ref": "#/$defs/CompensationChange"
+          },
+          "title": "Compensation History",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "company_id",
+        "name",
+        "gender",
+        "marital_status",
+        "employment",
+        "job"
+      ],
+      "title": "Employee",
+      "type": "object"
+    },
+    "EmployerContributionLine": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "category": {
+          "$ref": "#/$defs/Coded_DeductionCategory_"
+        },
+        "category_basis": {
+          "$ref": "#/$defs/ClassificationBasis"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Amount"
+        },
+        "benefit_plan_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Benefit Plan Id"
+        }
+      },
+      "required": [
+        "category",
+        "category_basis",
+        "amount"
+      ],
+      "title": "EmployerContributionLine",
+      "type": "object"
+    },
+    "EmployerMatch": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "$ref": "#/$defs/Coded_DeductionCalcMethod_"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Amount"
+        },
+        "percent": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Percent"
+        }
+      },
+      "required": [
+        "method"
+      ],
+      "title": "EmployerMatch",
+      "type": "object"
+    },
+    "Employment": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/Coded_EmploymentStatus_"
+        },
+        "status_effective_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status Effective Date"
+        },
+        "employment_type": {
+          "$ref": "#/$defs/Coded_EmploymentType_"
+        },
+        "original_hire_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Hire Date"
+        },
+        "hire_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Start of the current employment spell",
+          "title": "Hire Date"
+        },
+        "rehire_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rehire Date"
+        },
+        "termination_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Termination Date"
+        },
+        "termination_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Termination Reason"
+        },
+        "last_worked_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Worked Date"
+        },
+        "seniority_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seniority Date"
+        },
+        "is_rehire_eligible": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Rehire Eligible"
+        }
+      },
+      "required": [
+        "status",
+        "employment_type"
+      ],
+      "title": "Employment",
+      "type": "object"
+    },
+    "EmploymentStatus": {
+      "enum": [
+        "ACTIVE",
+        "ON_LEAVE",
+        "INACTIVE",
+        "TERMINATED",
+        "PENDING",
+        "UNKNOWN"
+      ],
+      "title": "EmploymentStatus",
+      "type": "string"
+    },
+    "EmploymentType": {
+      "enum": [
+        "FULL_TIME",
+        "PART_TIME",
+        "TEMPORARY",
+        "SEASONAL",
+        "CONTRACTOR",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "EmploymentType",
+      "type": "string"
+    },
+    "FlsaStatus": {
+      "enum": [
+        "EXEMPT",
+        "NON_EXEMPT",
+        "UNKNOWN"
+      ],
+      "title": "FlsaStatus",
+      "type": "string"
+    },
+    "Gender": {
+      "enum": [
+        "MALE",
+        "FEMALE",
+        "NON_BINARY",
+        "NOT_DISCLOSED",
+        "UNKNOWN"
+      ],
+      "title": "Gender",
+      "type": "string"
+    },
+    "Issue": {
+      "additionalProperties": false,
+      "properties": {
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "code": {
+          "$ref": "#/$defs/IssueCode"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Canonical field path the issue concerns",
+          "title": "Field"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "raw_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw Value"
+        }
+      },
+      "required": [
+        "severity",
+        "code",
+        "message"
+      ],
+      "title": "Issue",
+      "type": "object"
+    },
+    "IssueCode": {
+      "enum": [
+        "UNMAPPED_CODE",
+        "MISSING_REQUIRED",
+        "INVALID_VALUE",
+        "DERIVED_VALUE",
+        "UNIT_CONVERTED",
+        "TOTALS_MISMATCH",
+        "SENTINEL_VALUE",
+        "UNRESOLVED_REFERENCE",
+        "PROVIDER_GAP",
+        "ANOMALY"
+      ],
+      "title": "IssueCode",
+      "type": "string"
+    },
+    "Job": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code"
+        },
+        "effective_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective Date"
+        },
+        "flsa_status": {
+          "$ref": "#/$defs/Coded_FlsaStatus_"
+        },
+        "department": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Department"
+        },
+        "division": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Division"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "cost_centers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Cost Centers",
+          "type": "array"
+        },
+        "manager_employee_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Canonical id of the manager",
+          "title": "Manager Employee Id"
+        },
+        "union_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Union Code"
+        },
+        "workers_comp_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Workers Comp Code"
+        },
+        "is_remote": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Remote"
+        }
+      },
+      "required": [
+        "flsa_status"
+      ],
+      "title": "Job",
+      "type": "object"
+    },
+    "Limit": {
+      "additionalProperties": false,
+      "properties": {
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Amount"
+        },
+        "period": {
+          "$ref": "#/$defs/LimitPeriod"
+        }
+      },
+      "required": [
+        "amount",
+        "period"
+      ],
+      "title": "Limit",
+      "type": "object"
+    },
+    "LimitPeriod": {
+      "enum": [
+        "PAY_PERIOD",
+        "MONTH",
+        "QUARTER",
+        "YEAR",
+        "LIFETIME",
+        "UNKNOWN"
+      ],
+      "title": "LimitPeriod",
+      "type": "string"
+    },
+    "MaritalStatus": {
+      "enum": [
+        "SINGLE",
+        "MARRIED",
+        "DIVORCED",
+        "WIDOWED",
+        "SEPARATED",
+        "CIVIL_UNION",
+        "NOT_DISCLOSED",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "MaritalStatus",
+      "type": "string"
+    },
+    "NationalId": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/Coded_NationalIdType_"
+        },
+        "last4": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Only the last four digits are retained",
+          "title": "Last4"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "NationalId",
+      "type": "object"
+    },
+    "NationalIdType": {
+      "enum": [
+        "SSN",
+        "ITIN",
+        "SIN",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "NationalIdType",
+      "type": "string"
+    },
+    "PayFrequency": {
+      "enum": [
+        "DAILY",
+        "WEEKLY",
+        "BIWEEKLY",
+        "SEMIMONTHLY",
+        "MONTHLY",
+        "QUARTERLY",
+        "ANNUAL",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "PayFrequency",
+      "type": "string"
+    },
+    "PayGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "frequency": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Coded_PayFrequency_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "periods_per_year": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Periods Per Year"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "PayGroup",
+      "type": "object"
+    },
+    "PayType": {
+      "enum": [
+        "SALARY",
+        "HOURLY",
+        "COMMISSION",
+        "CONTRACTOR",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "PayType",
+      "type": "string"
+    },
+    "Paycheck": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "provider_fields": {
+          "additionalProperties": true,
+          "description": "Provider fields with no canonical home, preserved verbatim (masked if sensitive)",
+          "title": "Provider Fields",
+          "type": "object"
+        },
+        "company_id": {
+          "title": "Company Id",
+          "type": "string"
+        },
+        "employee_id": {
+          "title": "Employee Id",
+          "type": "string"
+        },
+        "payroll_run_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Payroll Run Id"
+        },
+        "check_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Check Number"
+        },
+        "pay_type": {
+          "$ref": "#/$defs/Coded_PayrollType_"
+        },
+        "status": {
+          "$ref": "#/$defs/Coded_PaycheckStatus_"
+        },
+        "pay_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pay Date"
+        },
+        "period_start": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Period Start"
+        },
+        "period_end": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Period End"
+        },
+        "payment_method": {
+          "$ref": "#/$defs/PaymentMethod",
+          "default": "UNKNOWN"
+        },
+        "gross_pay": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "Cash earnings (excludes imputed income)",
+          "title": "Gross Pay"
+        },
+        "gross_wages": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Gross incl. imputed income, when known",
+          "title": "Gross Wages"
+        },
+        "net_pay": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Net Pay"
+        },
+        "employee_taxes": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Employee Taxes"
+        },
+        "employer_taxes": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Employer Taxes"
+        },
+        "employee_deductions": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Employee Deductions"
+        },
+        "employer_contributions": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Employer Contributions"
+        },
+        "total_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Hours"
+        },
+        "totals_basis": {
+          "$ref": "#/$defs/TotalsBasis"
+        },
+        "earnings": {
+          "items": {
+            "$ref": "#/$defs/EarningLine"
+          },
+          "title": "Earnings",
+          "type": "array"
+        },
+        "taxes": {
+          "items": {
+            "$ref": "#/$defs/TaxLine"
+          },
+          "title": "Taxes",
+          "type": "array"
+        },
+        "deductions": {
+          "items": {
+            "$ref": "#/$defs/DeductionLine"
+          },
+          "title": "Deductions",
+          "type": "array"
+        },
+        "employer_contribution_lines": {
+          "items": {
+            "$ref": "#/$defs/EmployerContributionLine"
+          },
+          "title": "Employer Contribution Lines",
+          "type": "array"
+        },
+        "deposits": {
+          "items": {
+            "$ref": "#/$defs/DepositLine"
+          },
+          "title": "Deposits",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "company_id",
+        "employee_id",
+        "pay_type",
+        "status",
+        "gross_pay",
+        "net_pay",
+        "employee_taxes",
+        "employee_deductions",
+        "totals_basis"
+      ],
+      "title": "Paycheck",
+      "type": "object"
+    },
+    "PaycheckStatus": {
+      "enum": [
+        "ISSUED",
+        "PENDING",
+        "VOIDED",
+        "UNKNOWN"
+      ],
+      "title": "PaycheckStatus",
+      "type": "string"
+    },
+    "PaymentMethod": {
+      "enum": [
+        "CHECK",
+        "DIRECT_DEPOSIT",
+        "MIXED",
+        "NONE",
+        "UNKNOWN"
+      ],
+      "title": "PaymentMethod",
+      "type": "string"
+    },
+    "PayrollRun": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "provider_fields": {
+          "additionalProperties": true,
+          "description": "Provider fields with no canonical home, preserved verbatim (masked if sensitive)",
+          "title": "Provider Fields",
+          "type": "object"
+        },
+        "company_id": {
+          "title": "Company Id",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "run_type": {
+          "$ref": "#/$defs/Coded_PayrollType_"
+        },
+        "status": {
+          "$ref": "#/$defs/Coded_PayrollRunStatus_"
+        },
+        "pay_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pay Date"
+        },
+        "period_start": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Period Start"
+        },
+        "period_end": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Period End"
+        },
+        "run_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Date"
+        },
+        "run_number": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Number"
+        },
+        "pay_groups": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Pay Groups",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "company_id",
+        "run_type",
+        "status"
+      ],
+      "title": "PayrollRun",
+      "type": "object"
+    },
+    "PayrollRunStatus": {
+      "enum": [
+        "SCHEDULED",
+        "OPEN",
+        "PROCESSING",
+        "COMPLETED",
+        "FAILED",
+        "VOIDED",
+        "UNKNOWN"
+      ],
+      "title": "PayrollRunStatus",
+      "type": "string"
+    },
+    "PayrollType": {
+      "enum": [
+        "REGULAR",
+        "SUPPLEMENTAL",
+        "MANUAL",
+        "ADJUSTMENT",
+        "REVERSAL",
+        "CONVERSION",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "PayrollType",
+      "type": "string"
+    },
+    "PercentBasis": {
+      "description": "What a percentage allocation is a percentage *of*.",
+      "enum": [
+        "NET_PAY",
+        "GROSS_PAY",
+        "REMAINING_NET",
+        "UNKNOWN"
+      ],
+      "title": "PercentBasis",
+      "type": "string"
+    },
+    "PersonName": {
+      "additionalProperties": false,
+      "properties": {
+        "first": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First"
+        },
+        "middle": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Middle"
+        },
+        "last": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last"
+        },
+        "preferred": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Preferred"
+        },
+        "prefix": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix"
+        },
+        "suffix": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Suffix"
+        }
+      },
+      "title": "PersonName",
+      "type": "object"
+    },
+    "Phone": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "description": "home | mobile | work | fax | other",
+          "title": "Type",
+          "type": "string"
+        },
+        "number": {
+          "title": "Number",
+          "type": "string"
+        },
+        "extension": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Extension"
+        }
+      },
+      "required": [
+        "type",
+        "number"
+      ],
+      "title": "Phone",
+      "type": "object"
+    },
+    "Provider": {
+      "enum": [
+        "prismhr",
+        "isolved",
+        "ukg-ready"
+      ],
+      "title": "Provider",
+      "type": "string"
+    },
+    "RatePeriod": {
+      "description": "The unit a pay *rate* is expressed in (not how often the employee is paid).",
+      "enum": [
+        "HOUR",
+        "DAY",
+        "WEEK",
+        "BIWEEK",
+        "SEMIMONTH",
+        "MONTH",
+        "YEAR",
+        "PAY_PERIOD",
+        "UNKNOWN"
+      ],
+      "title": "RatePeriod",
+      "type": "string"
+    },
+    "Severity": {
+      "enum": [
+        "INFO",
+        "WARNING",
+        "ERROR"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "$ref": "#/$defs/Provider"
+        },
+        "scope": {
+          "description": "Provider tenant/company scope the source id is unique within",
+          "title": "Scope",
+          "type": "string"
+        },
+        "record_type": {
+          "description": "Provider endpoint/object the record came from",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Id"
+        }
+      },
+      "required": [
+        "provider",
+        "scope",
+        "record_type"
+      ],
+      "title": "SourceRef",
+      "type": "object"
+    },
+    "TaxLine": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "tax_type": {
+          "$ref": "#/$defs/Coded_TaxType_"
+        },
+        "payer": {
+          "$ref": "#/$defs/TaxPayer"
+        },
+        "jurisdiction": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "FED, a state code, or a locality label",
+          "title": "Jurisdiction"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Amount"
+        },
+        "taxable_wages": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxable Wages"
+        }
+      },
+      "required": [
+        "tax_type",
+        "payer",
+        "amount"
+      ],
+      "title": "TaxLine",
+      "type": "object"
+    },
+    "TaxPayer": {
+      "enum": [
+        "EMPLOYEE",
+        "EMPLOYER",
+        "UNKNOWN"
+      ],
+      "title": "TaxPayer",
+      "type": "string"
+    },
+    "TaxTreatment": {
+      "enum": [
+        "PRE_TAX",
+        "POST_TAX",
+        "ROTH",
+        "UNKNOWN"
+      ],
+      "title": "TaxTreatment",
+      "type": "string"
+    },
+    "TaxType": {
+      "enum": [
+        "FEDERAL_INCOME",
+        "SOCIAL_SECURITY",
+        "MEDICARE",
+        "ADDITIONAL_MEDICARE",
+        "FEDERAL_UNEMPLOYMENT",
+        "STATE_INCOME",
+        "STATE_UNEMPLOYMENT",
+        "STATE_DISABILITY",
+        "LOCAL_INCOME",
+        "OTHER",
+        "UNKNOWN"
+      ],
+      "title": "TaxType",
+      "type": "string"
+    },
+    "TotalsBasis": {
+      "enum": [
+        "PROVIDER",
+        "DERIVED"
+      ],
+      "title": "TotalsBasis",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Everything normalised from one provider pull. Records reference each\nother by canonical id (employee.company_id, paycheck.payroll_run_id, \u2026).",
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provider": {
+      "$ref": "#/$defs/Provider"
+    },
+    "companies": {
+      "items": {
+        "$ref": "#/$defs/Company"
+      },
+      "title": "Companies",
+      "type": "array"
+    },
+    "employees": {
+      "items": {
+        "$ref": "#/$defs/Employee"
+      },
+      "title": "Employees",
+      "type": "array"
+    },
+    "direct_deposits": {
+      "items": {
+        "$ref": "#/$defs/DirectDeposit"
+      },
+      "title": "Direct Deposits",
+      "type": "array"
+    },
+    "deductions": {
+      "items": {
+        "$ref": "#/$defs/DeductionSetup"
+      },
+      "title": "Deductions",
+      "type": "array"
+    },
+    "payroll_runs": {
+      "items": {
+        "$ref": "#/$defs/PayrollRun"
+      },
+      "title": "Payroll Runs",
+      "type": "array"
+    },
+    "paychecks": {
+      "items": {
+        "$ref": "#/$defs/Paycheck"
+      },
+      "title": "Paychecks",
+      "type": "array"
+    },
+    "issues": {
+      "description": "Bundle-level issues (e.g. unresolved links)",
+      "items": {
+        "$ref": "#/$defs/Issue"
+      },
+      "title": "Issues",
+      "type": "array"
+    }
+  },
+  "required": [
+    "provider"
+  ],
+  "title": "NormalizedBundle",
+  "type": "object"
+}

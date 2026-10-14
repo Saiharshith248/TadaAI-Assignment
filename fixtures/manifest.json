@@ -1,0 +1,85 @@
+{
+  "generator_version": "1.0.0",
+  "seed": 20261012,
+  "providers": {
+    "prismhr": {
+      "file": "prismhr/snapshot.json",
+      "sha256": "43c92ffa07c6adc8590e0e6c0eef7235f71dc8329554cfc85704f7f88d5196ed",
+      "contract_validation": {
+        "objects_checked": 25,
+        "errors": 0,
+        "allowed_live_drift": {
+          "employee[].person.employerId": "live name; spec says employerIds",
+          "employee[].person.autoPolicy": "live name; spec says autoPolicies",
+          "payrollVoucher[].isManualCheck": "observed live, not in spec"
+        }
+      },
+      "scenarios": [
+        "two clients (weekly WFRI, monthly MON) -> two canonical companies",
+        "employee statusClass L (on leave), T (terminated, no vouchers after term date)",
+        "undocumented statusClass 'X' and maritalStatus 'Z' -> UNKNOWN + UNMAPPED_CODE",
+        "gender 'X' (non-binary marker)",
+        "salary is per pay period (salary x periods = annualPay)",
+        "direct deposit F (fixed) + P (percent) + B (remainder), savings, prenote P, inactive I",
+        "deductions K, KR, C (section 125), G (garnishment), undocumented type 'ZZ', one-time scheduled 'O'",
+        "voucher FRINGE imputed income (totalEarnings - otherEarnAmount = cash gross)",
+        "voided voucher + reversal batch type V with negative amounts",
+        "voucher whose netPay is $1.00 off its own lines -> TOTALS_MISMATCH",
+        "batch with undocumented status 'INIT'",
+        "paged vouchers under live key 'payrollVoucher'",
+        "all 14 getEmployee options: events, health, skills/education, HSA deposit, new-hire answers, enrollment status, absence journal ids"
+      ]
+    },
+    "isolved": {
+      "file": "isolved/snapshot.json",
+      "sha256": "4fa8ce002b059795d0465456f78635fced72fbad41550b674a6af19b1eb48380",
+      "contract_validation": {
+        "objects_checked": 66,
+        "errors": 0,
+        "allowed_live_drift": {}
+      },
+      "scenarios": [
+        "client with two legal companies (biweekly 26, semi-monthly 24) -> two canonical companies",
+        "employmentStatus Active / Leave of Absence / Terminated / Inactive",
+        "payFrequency 23 anomaly",
+        "payType 1099 contractor with absent (not null) salary keys",
+        "maritalStatus 'Domestic Partner' (unmapped label)",
+        "direct deposit seq 0 remainder + fixed amount + 30 percent; Prenote; 404 when none",
+        "pay items: Percent/Amount calcParams, stopped voluntary item without systemBenefitType",
+        "catalog placeholder pay item (negative id, no dates, zero params) that is not an enrollment",
+        "garnishment from garnishments endpoint",
+        "checks: memo earnings (ER 401k match, ER medical), imputed GTL (grossWages > grossPay)",
+        "run history with scheduled 'Payroll Not Processed' row",
+        "orphan manual check whose payrollRunNumber is not in run history",
+        "paged employees/checks envelopes",
+        "employee detail with include flags (withholding taxes, veteran, tobacco, supervisor, I-9 status, alternate pay rate)",
+        "salary history with a merit increase; employment status history incl. termination"
+      ]
+    },
+    "ukg-ready": {
+      "file": "ukg-ready/snapshot.json",
+      "sha256": "669eb018fea1ae15b1a64b8467d9ed2a2dcbbc548e2af5dfca2bc30103afcf8a",
+      "contract_validation": {
+        "objects_checked": 118,
+        "errors": 0,
+        "allowed_live_drift": {
+          "lookup.items[].ein_country_id": "observed live on lookup/eins",
+          "payrolls[].ein.ein_country_id": "observed live on payrolls",
+          "taxes[].company_tax.external_id": "observed live on pay-statement taxes (T01, T03…)"
+        }
+      },
+      "scenarios": [
+        "two EINs, but lookup/eins returns only the first (live drift)",
+        "SSN returned unmasked -> canonical keeps last4 only",
+        "compensation history with 1900-12-31 placeholder row, a raise, YEAR and HOUR amounts",
+        "time / standard_work_day / pay-statement hours in milliseconds",
+        "direct deposit FULL + FLAT_AMOUNT + NET_PAY %, active_to 2099-12-31 sentinel, prenote READY_TO_SEND",
+        "employee deductions endpoint unresolvable (404) except one documented-shape example",
+        "FINALIZED and OPEN payrolls; statement without payments (net derived); ERROR message",
+        "fringe earning typed by type_name 'Earning (Fringe, Auto)' and included in payments (live behaviour)",
+        "status On Leave / Terminated / Inactive",
+        "profiles, tax-info, HR custom field and an emergency contact"
+      ]
+    }
+  }
+}
