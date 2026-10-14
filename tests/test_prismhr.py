@@ -193,3 +193,16 @@ def test_all_employee_option_blocks_preserved(b):
     assert pf["absenceJournalId"] and pf["benefitEnrollmentCompleted"] is True
     assert by_id(b.employees, "C90102").provider_fields["hsa"]["hsaDepositSettings"][0]["accountType"] == "HE"
     assert "health" not in by_id(b.employees, "B90101").provider_fields      # empty option blocks are not stored
+
+
+def test_pay_rate_history_is_mapped(b):
+    """getPayRateHistory: every employee has a new-hire rate, and anyone with a raise has it in order."""
+    with_history = [e for e in b.employees if e.compensation_history]
+    assert len(with_history) == len(b.employees)
+    raised = [e for e in with_history if len(e.compensation_history) == 2]
+    assert raised, "fixture should include at least one pay change"
+    for e in raised:
+        first, second = e.compensation_history
+        assert first.reason == "New Hire" and second.reason == "Merit Increase"
+        assert first.effective_date < second.effective_date
+        assert first.annual_amount < second.annual_amount

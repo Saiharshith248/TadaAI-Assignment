@@ -1761,6 +1761,246 @@
           "extension": null
         }
       },
+      "getPayRateHistory": {
+        "A90100": {
+          "payRateHistory": {
+            "employeeId": "A90100",
+            "clientId": "901",
+            "payRate": [
+              {
+                "effectiveDate": "2025-06-10",
+                "payRate": "915.7500",
+                "payPeriod": "W",
+                "annualPay": "47619.05",
+                "standardHours": "40.00",
+                "reason": "New Hire",
+                "payMethod": "S",
+                "hourlyRate": "22.9000"
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        },
+        "B90101": {
+          "payRateHistory": {
+            "employeeId": "B90101",
+            "clientId": "901",
+            "payRate": [
+              {
+                "effectiveDate": "2017-07-30",
+                "payRate": "20.8400",
+                "payPeriod": "H",
+                "annualPay": "43343.24",
+                "standardHours": "40.00",
+                "reason": "New Hire",
+                "payMethod": "H",
+                "hourlyRate": "20.8400"
+              },
+              {
+                "effectiveDate": "2025-01-01",
+                "payRate": "21.8800",
+                "payPeriod": "H",
+                "annualPay": "45510.40",
+                "standardHours": "40.00",
+                "reason": "Merit Increase",
+                "payMethod": "H",
+                "hourlyRate": "21.8800"
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        },
+        "C90102": {
+          "payRateHistory": {
+            "employeeId": "C90102",
+            "clientId": "901",
+            "payRate": [
+              {
+                "effectiveDate": "2020-12-18",
+                "payRate": "2032.9700",
+                "payPeriod": "W",
+                "annualPay": "105714.29",
+                "standardHours": "40.00",
+                "reason": "New Hire",
+                "payMethod": "S",
+                "hourlyRate": "50.8300"
+              },
+              {
+                "effectiveDate": "2025-01-01",
+                "payRate": "2134.6200",
+                "payPeriod": "W",
+                "annualPay": "111000.00",
+                "standardHours": "40.00",
+                "reason": "Merit Increase",
+                "payMethod": "S",
+                "hourlyRate": "53.3700"
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        },
+        "D90103": {
+          "payRateHistory": {
+            "employeeId": "D90103",
+            "clientId": "901",
+            "payRate": [
+              {
+                "effectiveDate": "2024-06-25",
+                "payRate": "2179.4900",
+                "payPeriod": "W",
+                "annualPay": "113333.33",
+                "standardHours": "40.00",
+                "reason": "New Hire",
+                "payMethod": "S",
+                "hourlyRate": "54.4900"
+              },
+              {
+                "effectiveDate": "2025-01-01",
+                "payRate": "2288.4600",
+                "payPeriod": "W",
+                "annualPay": "119000.00",
+                "standardHours": "40.00",
+                "reason": "Merit Increase",
+                "payMethod": "S",
+                "hourlyRate": "57.2100"
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        },
+        "E90104": {
+          "payRateHistory": {
+            "employeeId": "E90104",
+            "clientId": "901",
+            "payRate": [
+              {
+                "effectiveDate": "2023-12-05",
+                "payRate": "21.4300",
+                "payPeriod": "H",
+                "annualPay": "22285.71",
+                "standardHours": "40.00",
+                "reason": "New Hire",
+                "payMethod": "H",
+                "hourlyRate": "21.4300"
+              },
+              {
+                "effectiveDate": "2025-01-01",
+                "payRate": "22.5000",
+                "payPeriod": "H",
+                "annualPay": "23400.00",
+                "standardHours": "40.00",
+                "reason": "Merit Increase",
+                "payMethod": "H",
+                "hourlyRate": "22.5000"
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        },
+        "F90105": {
+          "payRateHistory": {
+            "employeeId": "F90105",
+            "clientId": "901",
+            "payRate": [
+              {
+                "effectiveDate": "2019-10-31",
+                "payRate": "2692.3100",
+                "payPeriod": "W",
+                "annualPay": "140000.00",
+                "standardHours": "40.00",
+                "reason": "New Hire",
+                "payMethod": "S",
+                "hourlyRate": "67.3000"
+              },
+              {
+                "effectiveDate": "2025-01-01",
+                "payRate": "2826.9200",
+                "payPeriod": "W",
+                "annualPay": "147000.00",
+                "standardHours": "40.00",
+                "reason": "Merit Increase",
+                "payMethod": "S",
+                "hourlyRate": "70.6700"
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        },
+        "G90106": {
+          "payRateHistory": {
+            "employeeId": "G90106",
+            "clientId": "901",
+            "payRate": [
+              {
+                "effectiveDate": "2024-02-25",
+                "payRate": "49.9000",
+                "payPeriod": "H",
+                "annualPay": "103809.52",
+                "standardHours": "40.00",
+                "reason": "New Hire",
+                "payMethod": "H",
+                "hourlyRate": "49.9000"
+              },
+              {
+                "effectiveDate": "2025-01-01",
+                "payRate": "52.4000",
+                "payPeriod": "H",
+                "annualPay": "109000.00",
+                "standardHours": "40.00",
+                "reason": "Merit Increase",
+                "payMethod": "H",
+                "hourlyRate": "52.4000"
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        },
+        "H90107": {
+          "payRateHistory": {
+            "employeeId": "H90107",
+            "clientId": "901",
+            "payRate": [
+              {
+                "effectiveDate": "2017-09-18",
+                "payRate": "17.7000",
+                "payPeriod": "H",
+                "annualPay": "36806.10",
+                "standardHours": "40.00",
+                "reason": "New Hire",
+                "payMethod": "H",
+                "hourlyRate": "17.7000"
+              },
+              {
+                "effectiveDate": "2025-01-01",
+                "payRate": "18.5800",
+                "payPeriod": "H",
+                "annualPay": "38646.40",
+                "standardHours": "40.00",
+                "reason": "Merit Increase",
+                "payMethod": "H",
+                "hourlyRate": "18.5800"
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        }
+      },
       "getBatchListByDate": {
         "batchList": [
           {
@@ -6384,6 +6624,101 @@
                 "rateTableId": "",
                 "rateTier": "",
                 "achOption": ""
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        }
+      },
+      "getPayRateHistory": {
+        "A90200": {
+          "payRateHistory": {
+            "employeeId": "A90200",
+            "clientId": "902",
+            "payRate": [
+              {
+                "effectiveDate": "2022-06-17",
+                "payRate": "4682.5400",
+                "payPeriod": "M",
+                "annualPay": "56190.48",
+                "standardHours": "173.33",
+                "reason": "New Hire",
+                "payMethod": "S",
+                "hourlyRate": "27.0200"
+              },
+              {
+                "effectiveDate": "2025-01-01",
+                "payRate": "4916.6700",
+                "payPeriod": "M",
+                "annualPay": "59000.00",
+                "standardHours": "173.33",
+                "reason": "Merit Increase",
+                "payMethod": "S",
+                "hourlyRate": "28.3700"
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        },
+        "B90201": {
+          "payRateHistory": {
+            "employeeId": "B90201",
+            "clientId": "902",
+            "payRate": [
+              {
+                "effectiveDate": "2016-10-05",
+                "payRate": "22.3400",
+                "payPeriod": "H",
+                "annualPay": "46473.14",
+                "standardHours": "173.33",
+                "reason": "New Hire",
+                "payMethod": "H",
+                "hourlyRate": "22.3400"
+              },
+              {
+                "effectiveDate": "2025-01-01",
+                "payRate": "23.4600",
+                "payPeriod": "H",
+                "annualPay": "48796.80",
+                "standardHours": "173.33",
+                "reason": "Merit Increase",
+                "payMethod": "H",
+                "hourlyRate": "23.4600"
+              }
+            ]
+          },
+          "errorCode": "0",
+          "errorMessage": "",
+          "extension": null
+        },
+        "C90202": {
+          "payRateHistory": {
+            "employeeId": "C90202",
+            "clientId": "902",
+            "payRate": [
+              {
+                "effectiveDate": "2022-10-11",
+                "payRate": "7539.6800",
+                "payPeriod": "M",
+                "annualPay": "90476.19",
+                "standardHours": "173.33",
+                "reason": "New Hire",
+                "payMethod": "S",
+                "hourlyRate": "43.5000"
+              },
+              {
+                "effectiveDate": "2025-01-01",
+                "payRate": "7916.6700",
+                "payPeriod": "M",
+                "annualPay": "95000.00",
+                "standardHours": "173.33",
+                "reason": "Merit Increase",
+                "payMethod": "S",
+                "hourlyRate": "45.6700"
               }
             ]
           },

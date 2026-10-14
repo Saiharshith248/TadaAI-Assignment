@@ -252,6 +252,8 @@ test, and its evidence is in SOURCE_MAPPING.md.
 | Paycheck totals | ✓ | ✓ (taxes missing from the list, see §5) | ✗ derived from lines |
 | Check → run link | ✓ `batchId` | ✗ no run id; linked on (legal, check date, run number), checked live; misses become `UNRESOLVED_REFERENCE` | ✓ nested under payroll |
 | Job title | ✗ code only | ✓ | ✗ job id only |
+| Bank account number | ✗ masked by default (only the routing number is usable) | ✓ | ✓ |
+| Payroll run number | ✗ | ✓ | ✗ |
 
 Missing data stays `null` (with a note where it matters) and is never filled
 with a default.

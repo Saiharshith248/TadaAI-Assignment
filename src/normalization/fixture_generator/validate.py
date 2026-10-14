@@ -140,6 +140,8 @@ def _targets(snapshot: dict) -> Iterable[Tuple[str, Any, dict, dict]]:
             yield "getEmployee", c["getEmployee"], p("/employee/v1/getEmployee"), doc
             for resp in c["getDeductions"].values():
                 yield "getDeductions", resp, p("/deductions/v1/getDeductions"), doc
+            for resp in c.get("getPayRateHistory", {}).values():
+                yield "getPayRateHistory", resp, p("/employee/v1/getPayRateHistory"), doc
             yield "getBatchListByDate", c["getBatchListByDate"], p("/payroll/v1/getBatchListByDate"), doc
             voucher_schema = p("/payroll/v1/getPayrollVouchers")
             # live key is singular: validate items against the documented item schema

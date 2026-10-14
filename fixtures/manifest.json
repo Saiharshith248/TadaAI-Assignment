@@ -4,9 +4,9 @@
   "providers": {
     "prismhr": {
       "file": "prismhr/snapshot.json",
-      "sha256": "43c92ffa07c6adc8590e0e6c0eef7235f71dc8329554cfc85704f7f88d5196ed",
+      "sha256": "b9b9369b07171e7720477d8b8027a34ce40fc3cea2607881ede333e97c4293f6",
       "contract_validation": {
-        "objects_checked": 25,
+        "objects_checked": 36,
         "errors": 0,
         "allowed_live_drift": {
           "employee[].person.employerId": "live name; spec says employerIds",

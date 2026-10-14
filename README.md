@@ -15,7 +15,6 @@ Other docs, in the order I'd read them:
 
 ## Contents
 
-- [How it works](#how-it-works)
 - [How to run](#how-to-run)
   - [1. Set up](#1-set-up-once)
   - [2. Run the tests](#2-run-the-tests)
@@ -25,75 +24,12 @@ Other docs, in the order I'd read them:
   - [6. Fixtures](#6-regenerate-or-verify-the-synthetic-fixtures)
 - [Reading the report](#reading-the-report)
 - [CLI](#cli)
+- [How it works](#how-it-works)
 - [Repository layout](#repository-layout)
 - [How I built it](#how-i-built-it)
 - [Known limitations](#known-limitations)
 - [Write employees to a provider (dry run)](#write-employees-to-a-provider-dry-run)
 - [Troubleshooting](#troubleshooting)
-
-## How it works
-
-```
- provider APIs ──(optional) fetch──▶ snapshot.json ──adapter──▶ NormalizedBundle ──▶ JSON / summary
-                                         ▲
- seeded generator ──contract-validated───┘   (fixtures/<provider>/snapshot.json)
-```
-
-The optional write flow goes the other way, as a dry run: a `NormalizedBundle`
-employee goes through a writer and becomes provider create/update requests that
-are printed and never sent. See
-[Write employees to a provider](#write-employees-to-a-provider-dry-run).
-
-1. Snapshot. This is the raw provider responses for one pull, kept in their
-   live shape: paged responses, errors inside the body, `{"http_status": 404}`
-   markers for failed calls. The fake fixtures and live pulls use the same
-   format, so the tests go through the same code as real data.
-2. Adapter (one per provider, in `src/normalization/adapters/`). It applies the
-   source-to-canonical mapping tables, links records by canonical id, masks PII,
-   converts units only when there is evidence, and checks every paycheck
-   (gross - employee taxes - employee deductions = net).
-3. Bundle. A `NormalizedBundle` holds `companies`, `employees`,
-   `direct_deposits`, `deductions`, `payroll_runs` and `paychecks` (each
-   paycheck has earnings, taxes, deductions, employer contributions and deposit
-   lines), linked by ids like `isolved:5797:employee:859112`.
-
-### In plain words: reading an employee from a provider
-
-Take one employee, Jordan. Each provider describes the same person in a
-different way: isolved says `"Male"`, PrismHR says `"M"` and UKG says `"MALE"`,
-and the hire date is `hireDate` in one and `dates.hired` in another.
-
-1. Pull: the snapshot has the provider's raw answers for Jordan.
-2. Normalize: the adapter turns them into one canonical employee and keeps the
-   raw value next to each translated one, e.g. `{"value": "MALE", "raw": "Male"}`.
-3. Flag: anything that can't be translated cleanly (a marital status the
-   provider never documented, a pay frequency of 23 periods a year) stays on the
-   record as an issue instead of being guessed.
-
-Writing Jordan to another provider is the same trip in reverse, as a dry run.
-
-### Canonical model at a glance
-
-| Record | Main contents |
-|---|---|
-| Company | The legal employer (PrismHR client, isolved legal company, UKG EIN), with parent account, FEIN, status, address and pay groups |
-| Employee | Name, birth date, gender, marital status, SSN last 4, addresses, emails, phones; employment (status, type, hire/rehire/termination dates); job (title, code, FLSA, department, location, manager); compensation (pay type, frequency, rate and rate period, annual, hourly, standard hours); compensation history; `provider_fields` for everything else |
-| DirectDeposit | Priority, account type, routing, account last 4, method (fixed / percent / remainder), amount or percent and its basis, status, prenote, effective dates |
-| DeductionSetup | Code, kind (recurring / one-time / garnishment), category and how it was classified, tax treatment, catch-up flag, calc method, amount or percent, limits, schedule, dates, status, plan, payee, employer match |
-| PayrollRun | Type, status, pay date, period, run number, pay groups |
-| Paycheck | Run link, type, status, dates, payment method, gross (cash) and gross wages, net, employee/employer taxes, deductions, employer contributions, hours, `totals_basis` (provider or derived), and all line items |
-
-The full spec and every mapping table are in
-[docs/CANONICAL_MODEL.md](docs/CANONICAL_MODEL.md). The JSON Schema is
-[schemas/canonical-bundle.schema.json](schemas/canonical-bundle.schema.json).
-
-Each coded field is stored as `{"value": "ACTIVE", "raw": "A"}`. Each record has
-`issues` that look like this:
-
-```json
-{"severity": "WARNING", "code": "UNMAPPED_CODE", "field": "employment.status",
- "message": "provider value not in EmploymentStatus mapping", "raw_value": "X"}
-```
 
 ## How to run
 
@@ -132,10 +68,10 @@ You should see something like this:
 
 ```
 ........................................................................ [ 28%]
-........................................................................ [ 57%]
+........................................................................ [ 56%]
 ........................................................................ [ 85%]
-....................................                                     [100%]
-252 passed, 2997 subtests passed in 1.3s
+.....................................                                    [100%]
+253 passed, 2997 subtests passed in 1.3s
 ```
 
 `-q` is quiet mode, so each passing test is just a dot. A failing test shows as
@@ -363,6 +299,70 @@ All commands run as `python -m normalization <command>` (or
 `E` is one of `company`, `employee`, `direct_deposit`, `deduction`,
 `payroll_run` or `paycheck`. `P` is one of `prismhr`, `isolved` or `ukg-ready`.
 
+## How it works
+
+```
+ provider APIs ──(optional) fetch──▶ snapshot.json ──adapter──▶ NormalizedBundle ──▶ JSON / summary
+                                         ▲
+ seeded generator ──contract-validated───┘   (fixtures/<provider>/snapshot.json)
+```
+
+The optional write flow goes the other way, as a dry run: a `NormalizedBundle`
+employee goes through a writer and becomes provider create/update requests that
+are printed and never sent. See
+[Write employees to a provider](#write-employees-to-a-provider-dry-run).
+
+1. Snapshot. This is the raw provider responses for one pull, kept in their
+   live shape: paged responses, errors inside the body, `{"http_status": 404}`
+   markers for failed calls. The fake fixtures and live pulls use the same
+   format, so the tests go through the same code as real data.
+2. Adapter (one per provider, in `src/normalization/adapters/`). It applies the
+   source-to-canonical mapping tables, links records by canonical id, masks PII,
+   converts units only when there is evidence, and checks every paycheck
+   (gross - employee taxes - employee deductions = net).
+3. Bundle. A `NormalizedBundle` holds `companies`, `employees`,
+   `direct_deposits`, `deductions`, `payroll_runs` and `paychecks` (each
+   paycheck has earnings, taxes, deductions, employer contributions and deposit
+   lines), linked by ids like `isolved:5797:employee:859112`.
+
+### In plain words: reading an employee from a provider
+
+Take one employee, Jordan. Each provider describes the same person in a
+different way: isolved says `"Male"`, PrismHR says `"M"` and UKG says `"MALE"`,
+and the hire date is `hireDate` in one and `dates.hired` in another.
+
+1. Pull: the snapshot has the provider's raw answers for Jordan.
+2. Normalize: the adapter turns them into one canonical employee and keeps the
+   raw value next to each translated one, e.g. `{"value": "MALE", "raw": "Male"}`.
+3. Flag: anything that can't be translated cleanly (a marital status the
+   provider never documented, a pay frequency of 23 periods a year) stays on the
+   record as an issue instead of being guessed.
+
+Writing Jordan to another provider is the same trip in reverse, as a dry run.
+
+### Canonical model at a glance
+
+| Record | Main contents |
+|---|---|
+| Company | The legal employer (PrismHR client, isolved legal company, UKG EIN), with parent account, FEIN, status, address and pay groups |
+| Employee | Name, birth date, gender, marital status, SSN last 4, addresses, emails, phones; employment (status, type, hire/rehire/termination dates); job (title, code, FLSA, department, location, manager); compensation (pay type, frequency, rate and rate period, annual, hourly, standard hours); compensation history; `provider_fields` for everything else |
+| DirectDeposit | Priority, account type, routing, account last 4, method (fixed / percent / remainder), amount or percent and its basis, status, prenote, effective dates |
+| DeductionSetup | Code, kind (recurring / one-time / garnishment), category and how it was classified, tax treatment, catch-up flag, calc method, amount or percent, limits, schedule, dates, status, plan, payee, employer match |
+| PayrollRun | Type, status, pay date, period, run number, pay groups |
+| Paycheck | Run link, type, status, dates, payment method, gross (cash) and gross wages, net, employee/employer taxes, deductions, employer contributions, hours, `totals_basis` (provider or derived), and all line items |
+
+The full spec and every mapping table are in
+[docs/CANONICAL_MODEL.md](docs/CANONICAL_MODEL.md). The JSON Schema is
+[schemas/canonical-bundle.schema.json](schemas/canonical-bundle.schema.json).
+
+Each coded field is stored as `{"value": "ACTIVE", "raw": "A"}`. Each record has
+`issues` that look like this:
+
+```json
+{"severity": "WARNING", "code": "UNMAPPED_CODE", "field": "employment.status",
+ "message": "provider value not in EmploymentStatus mapping", "raw_value": "X"}
+```
+
 ## Repository layout
 
 ```
@@ -410,7 +410,7 @@ live_snapshots/       live pulls (generated, gitignored)
    showed more undocumented behaviour (isolved pagination and check lists without
    taxes, PrismHR reported tips, UKG fringe handling and others). I fixed each
    one and copied the case back into the fixtures.
-7. Tests. There are 252 tests: unit tests, a test for each fixture scenario,
+7. Tests. There are 253 tests: unit tests, a test for each fixture scenario,
    cross-provider properties (determinism, integrity, no PII leaks,
    reconciliation), robustness against failed or changed responses, and the CLI.
    The tests caught three bugs, and the duplicate-id check found the isolved

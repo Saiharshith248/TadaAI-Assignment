@@ -5,7 +5,7 @@ import random
 from datetime import date, timedelta
 from decimal import Decimal
 
-from .common import ANCHOR, f, make_check, make_personas, pay_periods
+from .common import ANCHOR, f, make_check, make_personas, money, pay_periods
 
 OK = {"errorCode": "0", "errorMessage": "", "extension": None}
 CLIENTS = [  # (client id, name, periods/yr, pay period code, pay group, employees)
@@ -100,6 +100,24 @@ def _employee(p, cid, pg, period_code, emp_id, mgr_id):
             "amount": 25.0, "startDate": "2025-12-01", "stopDate": "2025-12-31", "cutbackPayeeCode": "UWAY",
         }] if p.idx == 0 else [],
     }
+
+
+def _pay_rate_history(p, cid, emp_id, period_code):
+    """getPayRateHistory: a new-hire rate and the current rate (a 5% merit increase)."""
+    salaried = p.pay_type == "salary"
+    prior_annual = money(p.annual / Decimal("1.05"))
+    prior_hourly = money(p.hourly / Decimal("1.05"))
+    merit = date(2025, 1, 1) if p.original_hire < date(2025, 1, 1) else p.hire
+    def row(eff, annual, hourly, reason):
+        per_period = money(annual / p.periods_per_year)
+        return {"effectiveDate": _d(eff), "payRate": f"{(per_period if salaried else hourly):.4f}",
+                "payPeriod": period_code if salaried else "H", "annualPay": f"{annual:.2f}",
+                "standardHours": f"{p.std_hours:.2f}", "reason": reason,
+                "payMethod": "S" if salaried else "H", "hourlyRate": f"{hourly:.4f}"}
+    rows = [row(p.original_hire, prior_annual, prior_hourly, "New Hire")]
+    if merit > p.original_hire:
+        rows.append(row(merit, p.annual, p.hourly, "Merit Increase"))
+    return {"payRateHistory": {"employeeId": emp_id, "clientId": cid, "payRate": rows}, **OK}
 
 
 def _deductions(p):
@@ -248,6 +266,7 @@ def build(seed: int) -> dict:
             "getEmployeeList": {"employeeList": {"employeeId": emp_ids}, **OK},
             "getEmployee": {"employee": employees, **OK},
             "getDeductions": {emp_ids[p.idx]: _deductions(p) for p in people},
+            "getPayRateHistory": {emp_ids[p.idx]: _pay_rate_history(p, cid, emp_ids[p.idx], pcode) for p in people},
             "getBatchListByDate": {"batchList": batches, **OK},
             "getPayrollVouchers": pages,
         })
