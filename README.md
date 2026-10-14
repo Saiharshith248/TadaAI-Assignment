@@ -380,7 +380,7 @@ schemas/              exported canonical JSON Schema
 scripts/              generate_fixtures.py
 tests/                pytest suite (unit, per-provider scenarios, cross-provider properties, robustness, CLI, writers)
 contracts/            provider reference pack (unchanged from the starter)
-docs/                 DECISIONS.md, SOURCE_MAPPING.md, CANONICAL_MODEL.md, ASSIGNMENT.md, REFERENCE_AUDIT.md
+docs/                 DECISIONS.md, SOURCE_MAPPING.md, CANONICAL_MODEL.md, ASSIGNMENT.md
 pyproject.toml        package metadata and dependencies
 .env                  your API key for live pulls (gitignored, never committed)
 output/               demo results (generated, gitignored)

@@ -51,7 +51,7 @@ retained, and the organizer has approved sharing this reference pack with candid
 The organizer provides the handoff, scope, deadline, and timezone. Use the
 organizer-approved sharing channel.
 
-Source history and evidence remain in the [reference audit](REFERENCE_AUDIT.md),
+Source history and evidence remain in the reference audit,
 [isolved manifest](../contracts/isolved/SOURCE_MANIFEST.json), and
 [UKG manifest](../contracts/ukg-ready/SOURCE_MANIFEST.json). Attribution/modification
 notices and PrismHR's license stay alongside the specifications.

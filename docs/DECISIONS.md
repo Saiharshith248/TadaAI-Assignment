@@ -233,7 +233,7 @@ test, and its evidence is in SOURCE_MAPPING.md.
 | 11 | isolved returns 404 for "no direct deposits" and "no checks in range" | For those endpoints 404 means empty. Other statuses are recorded as gaps. |
 | 12 | isolved `payFrequency` 23 | `OTHER` + `ANOMALY`. Not corrected. |
 | 13 | "Imputed" handling is different in isolved, UKG and PrismHR (see §4) | Decided by reconciliation. |
-| 14 | UKG hours are integers with no documented unit; live 144,000,000 = 40 h (the overtime amount works out to the cent) | Convert ms to hours, marked `UNIT_CONVERTED`. The reference audit warns not to guess units from how big a number is. Here the conversion is backed by live arithmetic, not by the size of the number. |
+| 14 | UKG hours are integers with no documented unit; live 144,000,000 = 40 h (the overtime amount works out to the cent) | Convert ms to hours, marked `UNIT_CONVERTED`. The organizer's reference notes warn not to guess units from how big a number is. Here the conversion is backed by live arithmetic, not by the size of the number. |
 | 15 | UKG sentinels: `1900-12-31` (placeholder compensation row) and `2099-12-31` (open-ended deposit) | Treated as "not set", with an INFO `SENTINEL_VALUE` note. |
 | 16 | UKG returns SSNs unmasked and isolved returns plain bank account numbers | Masked to the last 4 digits at the adapter boundary. |
 | 17 | Values that are in no reference: isolved "Chose not to answer", "Guarantee"; UKG `NO_ID_NEEDED`; PrismHR `INITFAIL`, etc. | Mapped where the meaning is clear: NOT_DISCLOSED, PayType.OTHER, no national id. Inferred mappings are labelled. Anything else gets `UNMAPPED_CODE`. |
