@@ -15,6 +15,7 @@ Other docs, in the order I'd read them:
 
 ## Contents
 
+- [How it works](#how-it-works)
 - [How to run](#how-to-run)
   - [1. Set up](#1-set-up-once)
   - [2. Run the tests](#2-run-the-tests)
@@ -22,14 +23,77 @@ Other docs, in the order I'd read them:
   - [4. Normalize one snapshot](#4-normalize-a-single-snapshot)
   - [5. Live data](#5-optional-pull-live-data-from-the-organizers-demo-tenants)
   - [6. Fixtures](#6-regenerate-or-verify-the-synthetic-fixtures)
-  - [Troubleshooting](#troubleshooting)
 - [Reading the report](#reading-the-report)
-- [How it works](#how-it-works)
 - [CLI](#cli)
 - [Repository layout](#repository-layout)
 - [How I built it](#how-i-built-it)
 - [Known limitations](#known-limitations)
 - [Write employees to a provider (dry run)](#write-employees-to-a-provider-dry-run)
+- [Troubleshooting](#troubleshooting)
+
+## How it works
+
+```
+ provider APIs ──(optional) fetch──▶ snapshot.json ──adapter──▶ NormalizedBundle ──▶ JSON / summary
+                                         ▲
+ seeded generator ──contract-validated───┘   (fixtures/<provider>/snapshot.json)
+```
+
+The optional write flow goes the other way, as a dry run: a `NormalizedBundle`
+employee goes through a writer and becomes provider create/update requests that
+are printed and never sent. See
+[Write employees to a provider](#write-employees-to-a-provider-dry-run).
+
+1. Snapshot. This is the raw provider responses for one pull, kept in their
+   live shape: paged responses, errors inside the body, `{"http_status": 404}`
+   markers for failed calls. The fake fixtures and live pulls use the same
+   format, so the tests go through the same code as real data.
+2. Adapter (one per provider, in `src/normalization/adapters/`). It applies the
+   source-to-canonical mapping tables, links records by canonical id, masks PII,
+   converts units only when there is evidence, and checks every paycheck
+   (gross - employee taxes - employee deductions = net).
+3. Bundle. A `NormalizedBundle` holds `companies`, `employees`,
+   `direct_deposits`, `deductions`, `payroll_runs` and `paychecks` (each
+   paycheck has earnings, taxes, deductions, employer contributions and deposit
+   lines), linked by ids like `isolved:5797:employee:859112`.
+
+### In plain words: reading an employee from a provider
+
+Take one employee, Jordan. Each provider describes the same person in a
+different way: isolved says `"Male"`, PrismHR says `"M"` and UKG says `"MALE"`,
+and the hire date is `hireDate` in one and `dates.hired` in another.
+
+1. Pull: the snapshot has the provider's raw answers for Jordan.
+2. Normalize: the adapter turns them into one canonical employee and keeps the
+   raw value next to each translated one, e.g. `{"value": "MALE", "raw": "Male"}`.
+3. Flag: anything that can't be translated cleanly (a marital status the
+   provider never documented, a pay frequency of 23 periods a year) stays on the
+   record as an issue instead of being guessed.
+
+Writing Jordan to another provider is the same trip in reverse, as a dry run.
+
+### Canonical model at a glance
+
+| Record | Main contents |
+|---|---|
+| Company | The legal employer (PrismHR client, isolved legal company, UKG EIN), with parent account, FEIN, status, address and pay groups |
+| Employee | Name, birth date, gender, marital status, SSN last 4, addresses, emails, phones; employment (status, type, hire/rehire/termination dates); job (title, code, FLSA, department, location, manager); compensation (pay type, frequency, rate and rate period, annual, hourly, standard hours); compensation history; `provider_fields` for everything else |
+| DirectDeposit | Priority, account type, routing, account last 4, method (fixed / percent / remainder), amount or percent and its basis, status, prenote, effective dates |
+| DeductionSetup | Code, kind (recurring / one-time / garnishment), category and how it was classified, tax treatment, catch-up flag, calc method, amount or percent, limits, schedule, dates, status, plan, payee, employer match |
+| PayrollRun | Type, status, pay date, period, run number, pay groups |
+| Paycheck | Run link, type, status, dates, payment method, gross (cash) and gross wages, net, employee/employer taxes, deductions, employer contributions, hours, `totals_basis` (provider or derived), and all line items |
+
+The full spec and every mapping table are in
+[docs/CANONICAL_MODEL.md](docs/CANONICAL_MODEL.md). The JSON Schema is
+[schemas/canonical-bundle.schema.json](schemas/canonical-bundle.schema.json).
+
+Each coded field is stored as `{"value": "ACTIVE", "raw": "A"}`. Each record has
+`issues` that look like this:
+
+```json
+{"severity": "WARNING", "code": "UNMAPPED_CODE", "field": "employment.status",
+ "message": "provider value not in EmploymentStatus mapping", "raw_value": "X"}
+```
 
 ## How to run
 
@@ -116,70 +180,8 @@ Running `demo` again overwrites these files. `output/` is gitignored, so you can
 delete it any time and run again. To write somewhere else use
 `demo --out some/folder`.
 
-Every command that normalizes data prints the same report. This is the isolved
-one, shortened:
-
-```
-========================================================================
-== isolved ==  NORMALIZATION REPORT
-========================================================================
-
-1. RECORDS PRODUCED
-   company            2   employer entities
-   employee           9   people on payroll
-   ...
-2. ISSUES BY SEVERITY
-   ERROR       0   record unusable or dropped
-   WARNING     3   record kept, but a value needs human review
-   INFO       12   normal notes: a value was derived, assumed or converted
-
-3. PAYROLL TOTALS (sum over all paychecks in the snapshot)
-   gross pay: 99174.76
-   net pay:   73131.37   (difference = taxes + deductions)
-   paychecks not linked to a payroll run: 1  (still included in the totals)
-   per company:
-     isolved:8001:company:8001: 19 paychecks, gross=59594.97, net=44316.91
-     isolved:8002:company:8002: 9 paychecks, gross=39579.79, net=28814.46
-
-4. ITEMS NEEDING REVIEW (WARNING / ERROR)
-   [1] WARNING UNMAPPED_CODE - provider value is not in our mapping table
-       record:  isolved:8001:employee:860105
-       field:   employees.marital_status
-       detail:  provider value not in MaritalStatus mapping  (raw value: 'Domestic Partner')
-       action:  add the value to the mapping table, or map it to an 'other' value
-   ...
-5. INFORMATIONAL NOTES (no action required)
-   x9   DERIVED_VALUE on employees.deductions: 1 catalog placeholder pay item(s) ... treated as not enrolled
-   ...
-```
-
-[Reading the report](#reading-the-report) explains each section.
-
-When files are written, the command ends with a list of them as `folder/file`
-and a short description of each:
-
-```
-GENERATED FILES
-  output/isolved.bundle.json
-      -> normalized canonical bundle for isolved (JSON)
-  output/isolved.summary.json
-      -> record counts, issues and payroll totals for isolved (JSON)
-```
-
-The warnings are expected. I added problem cases to the fixtures on purpose, for
-example provider codes that are not documented, a paycheck whose net pay is $1
-off from its own lines, or an isolved check with no matching payroll run. The
-warnings show that these were caught.
-
-To look at the results, open for example `output/isolved.bundle.json`. Each
-record shows the canonical value next to the provider's raw value, plus its
-issues. For example, for employee `isolved:8002:employee:860202`:
-
-```json
-"employment": {"status": {"value": "ACTIVE", "raw": "Active"}, "hire_date": "2024-01-28", …},
-"issues": [{"severity": "WARNING", "code": "ANOMALY", "field": "compensation.pay_frequency",
-            "message": "payFrequency 23 periods/year is not a standard calendar", "raw_value": 23}]
-```
+The report it prints, the `GENERATED FILES` list and how to read the bundle
+files are explained in [Reading the report](#reading-the-report).
 
 ### 4. Normalize a single snapshot
 
@@ -246,17 +248,46 @@ limited pull. Raise `--max-employees` to include more.
 .venv/bin/python -m normalization fixtures           # regenerate them (validated against the provider contracts)
 ```
 
-### Troubleshooting
-
-| Problem | Fix |
-|---|---|
-| `No module named normalization` | Run the install step (1), or use `.venv/bin/python` instead of the system `python3` |
-| `refusing to overwrite …` | Add `--overwrite`, or use another `--output` |
-| `fetch` fails with `CERTIFICATE_VERIFY_FAILED` | The client uses `certifi` if it is installed, otherwise the macOS system bundle `/etc/ssl/cert.pem`. On other systems run `.venv/bin/pip install certifi` |
-| `fetch` says `DEMO_SIGNIN_API_KEY not set` | Create `.env` as shown in step 5, in the repository root |
-| The first `fetch` is slow | The hosted sign-in service goes to sleep after a while (the spinner says `signing in`). Just wait and retry |
-
 ## Reading the report
+
+Every command that normalizes data prints the same report. This is the isolved
+one, shortened:
+
+```
+========================================================================
+== isolved ==  NORMALIZATION REPORT
+========================================================================
+
+1. RECORDS PRODUCED
+   company            2   employer entities
+   employee           9   people on payroll
+   ...
+2. ISSUES BY SEVERITY
+   ERROR       0   record unusable or dropped
+   WARNING     3   record kept, but a value needs human review
+   INFO       12   normal notes: a value was derived, assumed or converted
+
+3. PAYROLL TOTALS (sum over all paychecks in the snapshot)
+   gross pay: 99174.76
+   net pay:   73131.37   (difference = taxes + deductions)
+   paychecks not linked to a payroll run: 1  (still included in the totals)
+   per company:
+     isolved:8001:company:8001: 19 paychecks, gross=59594.97, net=44316.91
+     isolved:8002:company:8002: 9 paychecks, gross=39579.79, net=28814.46
+
+4. ITEMS NEEDING REVIEW (WARNING / ERROR)
+   [1] WARNING UNMAPPED_CODE - provider value is not in our mapping table
+       record:  isolved:8001:employee:860105
+       field:   employees.marital_status
+       detail:  provider value not in MaritalStatus mapping  (raw value: 'Domestic Partner')
+       action:  add the value to the mapping table, or map it to an 'other' value
+   ...
+5. INFORMATIONAL NOTES (no action required)
+   x9   DERIVED_VALUE on employees.deductions: 1 catalog placeholder pay item(s) ... treated as not enrolled
+   ...
+```
+
+The parts of the report mean this:
 
 | Section | What it means |
 |---|---|
@@ -284,68 +315,30 @@ Issue codes:
 The same data is available as JSON with `summary --json` (keys: `records`,
 `issues_by_severity`, `issues`, `paychecks`, `details`).
 
-## How it works
+When files are written, the command ends with a list of them as `folder/file`
+and a short description of each:
 
 ```
- provider APIs ──(optional) fetch──▶ snapshot.json ──adapter──▶ NormalizedBundle ──▶ JSON / summary
-                                         ▲
- seeded generator ──contract-validated───┘   (fixtures/<provider>/snapshot.json)
+GENERATED FILES
+  output/isolved.bundle.json
+      -> normalized canonical bundle for isolved (JSON)
+  output/isolved.summary.json
+      -> record counts, issues and payroll totals for isolved (JSON)
 ```
 
-The optional write flow goes the other way, as a dry run: a `NormalizedBundle`
-employee goes through a writer and becomes provider create/update requests that
-are printed and never sent. See
-[Write employees to a provider](#write-employees-to-a-provider-dry-run).
+The warnings are expected. I added problem cases to the fixtures on purpose, for
+example provider codes that are not documented, a paycheck whose net pay is $1
+off from its own lines, or an isolved check with no matching payroll run. The
+warnings show that these were caught.
 
-1. Snapshot. This is the raw provider responses for one pull, kept in their
-   live shape: paged responses, errors inside the body, `{"http_status": 404}`
-   markers for failed calls. The fake fixtures and live pulls use the same
-   format, so the tests go through the same code as real data.
-2. Adapter (one per provider, in `src/normalization/adapters/`). It applies the
-   source-to-canonical mapping tables, links records by canonical id, masks PII,
-   converts units only when there is evidence, and checks every paycheck
-   (gross - employee taxes - employee deductions = net).
-3. Bundle. A `NormalizedBundle` holds `companies`, `employees`,
-   `direct_deposits`, `deductions`, `payroll_runs` and `paychecks` (each
-   paycheck has earnings, taxes, deductions, employer contributions and deposit
-   lines), linked by ids like `isolved:5797:employee:859112`.
-
-### In plain words: reading an employee from a provider
-
-Take one employee, Jordan. Each provider describes the same person in a
-different way: isolved says `"Male"`, PrismHR says `"M"` and UKG says `"MALE"`,
-and the hire date is `hireDate` in one and `dates.hired` in another.
-
-1. Pull: the snapshot has the provider's raw answers for Jordan.
-2. Normalize: the adapter turns them into one canonical employee and keeps the
-   raw value next to each translated one, e.g. `{"value": "MALE", "raw": "Male"}`.
-3. Flag: anything that can't be translated cleanly (a marital status the
-   provider never documented, a pay frequency of 23 periods a year) stays on the
-   record as an issue instead of being guessed.
-
-Writing Jordan to another provider is the same trip in reverse, as a dry run.
-
-### Canonical model at a glance
-
-| Record | Main contents |
-|---|---|
-| Company | The legal employer (PrismHR client, isolved legal company, UKG EIN), with parent account, FEIN, status, address and pay groups |
-| Employee | Name, birth date, gender, marital status, SSN last 4, addresses, emails, phones; employment (status, type, hire/rehire/termination dates); job (title, code, FLSA, department, location, manager); compensation (pay type, frequency, rate and rate period, annual, hourly, standard hours); compensation history; `provider_fields` for everything else |
-| DirectDeposit | Priority, account type, routing, account last 4, method (fixed / percent / remainder), amount or percent and its basis, status, prenote, effective dates |
-| DeductionSetup | Code, kind (recurring / one-time / garnishment), category and how it was classified, tax treatment, catch-up flag, calc method, amount or percent, limits, schedule, dates, status, plan, payee, employer match |
-| PayrollRun | Type, status, pay date, period, run number, pay groups |
-| Paycheck | Run link, type, status, dates, payment method, gross (cash) and gross wages, net, employee/employer taxes, deductions, employer contributions, hours, `totals_basis` (provider or derived), and all line items |
-
-The full spec and every mapping table are in
-[docs/CANONICAL_MODEL.md](docs/CANONICAL_MODEL.md). The JSON Schema is
-[schemas/canonical-bundle.schema.json](schemas/canonical-bundle.schema.json).
-
-Each coded field is stored as `{"value": "ACTIVE", "raw": "A"}`. Each record has
-`issues` that look like this:
+To look at the results, open for example `output/isolved.bundle.json`. Each
+record shows the canonical value next to the provider's raw value, plus its
+issues. For example, for employee `isolved:8002:employee:860202`:
 
 ```json
-{"severity": "WARNING", "code": "UNMAPPED_CODE", "field": "employment.status",
- "message": "provider value not in EmploymentStatus mapping", "raw_value": "X"}
+"employment": {"status": {"value": "ACTIVE", "raw": "Active"}, "hire_date": "2024-01-28", …},
+"issues": [{"severity": "WARNING", "code": "ANOMALY", "field": "compensation.pay_frequency",
+            "message": "payFrequency 23 periods/year is not a standard calendar", "raw_value": 23}]
 ```
 
 ## CLI
@@ -569,3 +562,13 @@ The full SSN is never written (the canonical model keeps only the last 4
 digits), so it is always a placeholder. The reasoning, the field table and the
 limitations are in
 [docs/DECISIONS.md](docs/DECISIONS.md#9-write-path-optional-extension-canonical-employee--provider-dry-run).
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `No module named normalization` | Run the install step (1), or use `.venv/bin/python` instead of the system `python3` |
+| `refusing to overwrite …` | Add `--overwrite`, or use another `--output` |
+| `fetch` fails with `CERTIFICATE_VERIFY_FAILED` | The client uses `certifi` if it is installed, otherwise the macOS system bundle `/etc/ssl/cert.pem`. On other systems run `.venv/bin/pip install certifi` |
+| `fetch` says `DEMO_SIGNIN_API_KEY not set` | Create `.env` as shown in step 5, in the repository root |
+| The first `fetch` is slow | The hosted sign-in service goes to sleep after a while (the spinner says `signing in`). Just wait and retry |
